@@ -20,10 +20,10 @@
       <div class="task__container">
         <div class="task" v-for="task in tasks">
           <check class="task__id" @check="checkTask(task)" :check="task.checked"></check>
-          <span class="task__message" :class="{'task__message_checked': task.checked}">{{ task.message }}</span>
+          <to-do-message :task="task" @update-tasks="updateTasks"></to-do-message>
           <span @click="deleteTask(task.id)" class="task__delete">
-          <img class="task__delete_img" src="https://freesvg.org/img/trash.png">
-        </span>
+            удалить
+          </span>
         </div>
       </div>
     </div>
@@ -32,12 +32,14 @@
 
 <script>
 
+import ToDoMessage from '@/components/toDo/ToDoMessage.vue'
 import Check from '@/components/Check.vue'
 
 export default {
   name: 'ToDoList',
   components: {
-    Check
+    Check,
+    ToDoMessage
   },
   data() {
     return {
@@ -72,6 +74,9 @@ export default {
     },
     checkTask(task) {
       task.checked = !task.checked;
+      localStorage.setItem('to-do-list', JSON.stringify(this.tasks));
+    },
+    updateTasks() {
       localStorage.setItem('to-do-list', JSON.stringify(this.tasks));
     },
     getCheckedTasks() {
@@ -165,8 +170,10 @@ export default {
 
 .task {
   display: flex;
+  height: 36px;
+  align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 0 16px;
   border-bottom: 1px solid #a4a4a4;
 
   &__container {
@@ -181,7 +188,7 @@ export default {
   }
 
   &__message {
-    flex: 0 0 85%;
+    flex: 0 0 80%;
     text-align: initial;
 
     &_checked {
@@ -190,7 +197,7 @@ export default {
   }
 
   &__delete {
-    flex: 0 0 5%;
+    flex: 0 0 10%;
     cursor: pointer;
     outline: none;
 
