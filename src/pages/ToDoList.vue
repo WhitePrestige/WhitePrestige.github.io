@@ -164,7 +164,6 @@ export default {
   &:active {
     transition: all 0.2s;
     background: #F1E3CB;
-    //box-shadow: 0 3px rgb(234, 223, 223) inset;
   }
 }
 
