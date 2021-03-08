@@ -27,6 +27,10 @@ export default {
   },
   methods: {
     editMessage() {
+      if (this.task.checked) {
+        return;
+      }
+
       this.editMode = true;
       setTimeout(() => {
         this.$refs.input.focus();
