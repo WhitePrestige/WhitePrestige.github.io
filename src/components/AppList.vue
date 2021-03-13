@@ -1,6 +1,7 @@
 <template>
   <div class="app-list">
     <router-link class="app-list__item" to="/to-do-list">to do list</router-link>
+    <router-link class="app-list__item" to="/drag-drop">drag and drop</router-link>
   </div>
 </template>
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../pages/Home.vue'
 import ToDoList from '../pages/ToDoList.vue'
+import DragDrop from '../pages/DragDrop.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/to-do-list',
     name: 'ToDoList',
     component: ToDoList
+  },
+  {
+    path: '/drag-drop',
+    name: 'DragDrop',
+    component: DragDrop
   },
 ]
 
