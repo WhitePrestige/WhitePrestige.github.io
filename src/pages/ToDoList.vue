@@ -11,11 +11,23 @@
         </span>
       </div>
       <div class="tdl-page__header">
-      <span class="tdl-page__input-wrapper">
-        <span class="input_label">Your toDo</span>
-        <input type="text" class="input" v-model="message">
-      </span>
-      <span class="add-button" @click="addMessage">+</span>
+        <span class="tdl-page__input-wrapper">
+          <span class="input_label">Your toDo</span>
+          <input type="text" class="input" v-model="message">
+        </span>
+        <span class="add-button" @click="addMessage">+</span>
+      </div>
+      <div class="tdl-page__sort">
+        сортировать по:
+        <span class="my-btn" @click="sort('byDone')">
+          выполненному ▲
+        </span>
+        <span class="my-btn" @click="sort('byDoneDescending')">
+          выполненному ▼
+        </span>
+        <span class="my-btn" @click="sort('byMessage')">
+          сообщению
+        </span>
       </div>
       <div class="task__container">
         <div class="task" v-for="task in tasks">
@@ -66,11 +78,49 @@ export default {
       return JSON.parse(localStorage.getItem('to-do-list'))
     },
     deleteTask(id) {
-      if(!this.tasks.splice(id, 1).length) {
-        this.tasks = []
+      const taskIndex = this.tasks.findIndex(task => task.id === id);
+      if (taskIndex !== -1) {
+        this.tasks.splice(taskIndex, 1);
       }
 
       localStorage.setItem('to-do-list', JSON.stringify(this.tasks));
+    },
+    sort(sortParam) {
+      switch(sortParam) {
+        case 'byDone':
+          return this.tasks.sort(function (a, b) {
+            if (a.checked < b.checked) {
+              return 1;
+            }
+            if (a.checked > b.checked) {
+              return -1;
+            }
+
+            return 0;
+          })
+        case 'byDoneDescending':
+          return this.tasks.sort(function (a, b) {
+            if (a.checked > b.checked) {
+              return 1;
+            }
+            if (a.checked < b.checked) {
+              return -1;
+            }
+
+            return 0;
+          })
+        case 'byMessage':
+          return this.tasks.sort(function (a, b) {
+            if (a.message > b.message) {
+              return 1;
+            }
+            if (a.message < b.message) {
+              return -1;
+            }
+
+            return 0;
+          })
+      }
     },
     checkTask(task) {
       task.checked = !task.checked;
@@ -109,6 +159,10 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+
+  &__sort {
+    display: flex;
   }
 
   &__input-wrapper {
@@ -206,6 +260,18 @@ export default {
       width: 20px;
     }
   }
+}
+
+.my-btn {
+  height: 20px;
+  width: fit-content;
+  padding: 0 10px;
+  display: block;
+  background-color: PapayaWhip;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select:none;
+  margin-left: 10px;
 }
 
 </style>
